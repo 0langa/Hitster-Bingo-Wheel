@@ -137,20 +137,32 @@ var Wheel = (function () {
         filter: "url(#neonGlow)"
       }));
 
-      // Shorthand label
+      // Shorthand label (supports \n for multi-line)
       var labelR = (RADIUS + INNER_R) / 2 + 12;
       var lp = polar(CX, CY, labelR, midA);
+      var rawLabel = seg.shorthand.replace(/\\n/g, "\n");
+      var lines = rawLabel.split("\n");
+      var fontSize = rawLabel.replace(/\n/g, "").length > 3 ? 15 : 21;
+      var lineHeight = fontSize * 1.25;
+      var totalH = lineHeight * (lines.length - 1);
       var txt = el("text", {
-        x: lp.x, y: lp.y,
+        x: lp.x, y: lp.y - totalH / 2,
         "text-anchor": "middle",
         "dominant-baseline": "central",
         fill: "#fff",
         "font-family": "'Orbitron', sans-serif",
         "font-weight": "700",
-        "font-size": seg.shorthand.length > 3 ? "15" : "21",
+        "font-size": fontSize,
         style: "pointer-events:none; text-shadow:0 0 8px rgba(255,255,255,0.5)"
       });
-      txt.textContent = seg.shorthand;
+      for (var li = 0; li < lines.length; li++) {
+        var tspan = el("tspan", {
+          x: lp.x,
+          dy: li === 0 ? "0" : lineHeight
+        });
+        tspan.textContent = lines[li];
+        txt.appendChild(tspan);
+      }
       g.appendChild(txt);
 
       svg.appendChild(g);
