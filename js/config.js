@@ -41,7 +41,7 @@ var SEGMENT_ANGLE = 360 / SEGMENT_COUNT; // 72
 var MIN_SPINS = 5;
 
 /** Maximum additional full rotations during a spin */
-var MAX_SPINS = 8;
+var MAX_SPINS = 10;
 
 /** Total spin animation duration in milliseconds */
 var SPIN_DURATION_MS = 4000;
